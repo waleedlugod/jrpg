@@ -1,0 +1,36 @@
+[gd_scene load_steps=7 format=3 uid="uid://ddjnsnnestsan"]
+
+[ext_resource type="Script" path="res://scripts/player_group.gd" id="1_71bmp"]
+[ext_resource type="PackedScene" uid="uid://byx8wv7a55slc" path="res://scenes/character.tscn" id="2_xv8h4"]
+[ext_resource type="Texture2D" uid="uid://dq0dlf2pnlpg0" path="res://assets/rpg-battle-system/char/bowman.png" id="3_pjas3"]
+[ext_resource type="Texture2D" uid="uid://cu4qn1j37jnrb" path="res://assets/rpg-battle-system/char/paladin.png" id="4_oonsm"]
+[ext_resource type="Texture2D" uid="uid://b7frc8s7lmtn1" path="res://assets/rpg-battle-system/char/warrior2.png" id="5_a3yhu"]
+[ext_resource type="Texture2D" uid="uid://b5gqy4jm1nfj7" path="res://assets/rpg-battle-system/char/Wizard.png" id="6_guyaa"]
+
+[node name="PlayerGroup" type="Node2D"]
+script = ExtResource("1_71bmp")
+
+[node name="Character" parent="." instance=ExtResource("2_xv8h4")]
+
+[node name="Sprite2D" parent="Character" index="0"]
+texture = ExtResource("3_pjas3")
+
+[node name="Character2" parent="." instance=ExtResource("2_xv8h4")]
+
+[node name="Sprite2D" parent="Character2" index="0"]
+texture = ExtResource("4_oonsm")
+
+[node name="Character3" parent="." instance=ExtResource("2_xv8h4")]
+
+[node name="Sprite2D" parent="Character3" index="0"]
+texture = ExtResource("5_a3yhu")
+
+[node name="Character4" parent="." instance=ExtResource("2_xv8h4")]
+
+[node name="Sprite2D" parent="Character4" index="0"]
+texture = ExtResource("6_guyaa")
+
+[editable path="Character"]
+[editable path="Character2"]
+[editable path="Character3"]
+[editable path="Character4"]
