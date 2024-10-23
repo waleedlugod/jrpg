@@ -60,3 +60,5 @@ text = "Run
 
 [connection signal="next_player" from="EnemyGroup" to="PlayerGroup" method="_on_enemy_group_next_player"]
 [connection signal="pressed" from="CanvasLayer/Choice/Attack" to="EnemyGroup" method="_on_attack_pressed"]
+[connection signal="pressed" from="CanvasLayer/Choice/Defend" to="EnemyGroup" method="_on_defend_pressed"]
+[connection signal="pressed" from="CanvasLayer/Choice/Magic" to="EnemyGroup" method="_on_magic_pressed"]
