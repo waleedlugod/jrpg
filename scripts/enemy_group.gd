@@ -13,6 +13,8 @@ func _ready() -> void:
 	enemies = get_children()
 	for i in enemies.size():
 		enemies[i].position = Vector2(0, i*36)
+		
+	enemies[0].focus()
 	
 	show_choice()
 
@@ -65,4 +67,12 @@ func _start_choosing():
 
 func _on_attack_pressed() -> void:
 	choice.hide()
-	_start_choosing
+	_start_choosing()
+	
+	
+	
+	
+	
+	
+	
+	

@@ -39,11 +39,11 @@ theme_override_fonts/font = ExtResource("4_feu23")
 theme_override_font_sizes/font_size = 8
 text = "Defend"
 
-[node name="Choice3" type="Button" parent="CanvasLayer/Choice"]
+[node name="Magic" type="Button" parent="CanvasLayer/Choice"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_feu23")
 theme_override_font_sizes/font_size = 8
-text = "Choice 3"
+text = "Magic"
 
 [node name="Choice4" type="Button" parent="CanvasLayer/Choice"]
 layout_mode = 2

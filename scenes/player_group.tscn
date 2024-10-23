@@ -10,27 +10,27 @@
 [node name="PlayerGroup" type="Node2D"]
 script = ExtResource("1_71bmp")
 
-[node name="Character" parent="." instance=ExtResource("2_xv8h4")]
+[node name="Player1" parent="." instance=ExtResource("2_xv8h4")]
 
-[node name="Sprite2D" parent="Character" index="0"]
+[node name="Sprite2D" parent="Player1" index="0"]
 texture = ExtResource("3_pjas3")
 
-[node name="Character2" parent="." instance=ExtResource("2_xv8h4")]
+[node name="Player2" parent="." instance=ExtResource("2_xv8h4")]
 
-[node name="Sprite2D" parent="Character2" index="0"]
+[node name="Sprite2D" parent="Player2" index="0"]
 texture = ExtResource("4_oonsm")
 
-[node name="Character3" parent="." instance=ExtResource("2_xv8h4")]
+[node name="Player3" parent="." instance=ExtResource("2_xv8h4")]
 
-[node name="Sprite2D" parent="Character3" index="0"]
+[node name="Sprite2D" parent="Player3" index="0"]
 texture = ExtResource("5_a3yhu")
 
-[node name="Character4" parent="." instance=ExtResource("2_xv8h4")]
+[node name="Player4" parent="." instance=ExtResource("2_xv8h4")]
 
-[node name="Sprite2D" parent="Character4" index="0"]
+[node name="Sprite2D" parent="Player4" index="0"]
 texture = ExtResource("6_guyaa")
 
-[editable path="Character"]
-[editable path="Character2"]
-[editable path="Character3"]
-[editable path="Character4"]
+[editable path="Player1"]
+[editable path="Player2"]
+[editable path="Player3"]
+[editable path="Player4"]

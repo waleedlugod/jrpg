@@ -6,10 +6,10 @@
 [node name="EnemyGroup" type="Node2D"]
 script = ExtResource("1_a2bmo")
 
-[node name="Character" parent="." instance=ExtResource("2_7jx14")]
+[node name="Enemy1" parent="." instance=ExtResource("2_7jx14")]
 
-[node name="Character2" parent="." instance=ExtResource("2_7jx14")]
+[node name="Enemy2" parent="." instance=ExtResource("2_7jx14")]
 
-[node name="Character3" parent="." instance=ExtResource("2_7jx14")]
+[node name="Enemy3" parent="." instance=ExtResource("2_7jx14")]
 
-[node name="Character4" parent="." instance=ExtResource("2_7jx14")]
+[node name="Enemy4" parent="." instance=ExtResource("2_7jx14")]
