@@ -34,6 +34,7 @@ func _process(delta: float) -> void:
 		if Input.is_action_just_pressed("ui_accept"):
 			action_queue.push_back(index)
 			emit_signal("next_player")
+			show_choice()
 		
 	if action_queue.size() == enemies.size() and not is_battling:
 		is_battling = true
@@ -68,11 +69,3 @@ func _start_choosing():
 func _on_attack_pressed() -> void:
 	choice.hide()
 	_start_choosing()
-	
-	
-	
-	
-	
-	
-	
-	
