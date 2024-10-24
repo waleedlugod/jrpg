@@ -2,6 +2,7 @@ extends Node2D
 
 @onready var action_choice: VBoxContainer = $"./CanvasLayer/Choice"
 @onready var enemies = $EnemyGroup.enemies
+@onready var playerGroup = $PlayerGroup
 @onready var players = $PlayerGroup.players
 
 
@@ -63,10 +64,11 @@ func start_battle_sequence():
 		print(action)
 		match action.chosen_action:
 			"attack": enemies[action.target].take_damage(1)
-			"defend": pass
-			"magic": pass
+			"defend": players[action.target].is_defending = true
+			"magic": enemies[action.target].take_damage(rng.randi_range(1, 5))
 	is_battling = false
 	current_player = 0
+	playerGroup._reset_defend()
 	action_queue.clear()
 
 func generate_enemy_actions():
@@ -94,8 +96,7 @@ func _on_attack_pressed() -> void:
 
 
 func _on_defend_pressed() -> void:
-	action_queue.push_back({chosen_action = "defend"})
-	players[current_player].is_defending = true
+	action_queue.push_back({chosen_action = "defend", target = current_player})
 	if current_player + 1 < players.size(): current_player += 1
 
 
