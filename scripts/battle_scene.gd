@@ -16,7 +16,6 @@ var action_target: int = 0:
 
 var action_queue: Array = []
 var chosen_action: String = ""
-var enemy_action_queue: Array = []
 var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
 var is_battling: bool = false
@@ -55,6 +54,7 @@ func start_battle_sequence():
 	action_choice.hide()
 	playerGroup.clear_focus()
 
+	# player action phase
 	for action in action_queue:
 		print(action)
 		match action.chosen_action:
@@ -66,7 +66,19 @@ func start_battle_sequence():
 				enemyGroup.handle_damage(action.target, rng.randi_range(1, 5))
 		await get_tree().create_timer(1).timeout
 	
+	# enemy action phase
+	var enemy_action_queue = generate_enemy_actions()
+	for action in enemy_action_queue:
+		print(action)
+		match action.chosen_action:
+			"attack":
+				playerGroup.handle_damage(action.target, 2)
+			"magic":
+				playerGroup.handle_damage(action.target, rng.randi_range(1, 5))
+		await get_tree().create_timer(1).timeout
+	
 	end_battle_sequence()
+
 
 func end_battle_sequence():
 	is_battling = false
@@ -75,8 +87,21 @@ func end_battle_sequence():
 	action_queue.clear()
 	show_choice()
 
-func generate_enemy_actions():
-	pass
+
+func generate_enemy_actions() -> Array:
+	var queue = []
+	for enemy in enemies:
+		var action
+		match rng.randi_range(0, 1):
+			0: action = "attack"
+			1: action = "magic"
+
+		var target = rng.randi_range(0, players.size() - 1)
+		queue.push_back({
+			chosen_action = action,
+			target = target
+		})
+	return queue
 
 func show_choice():
 	action_choice.show()

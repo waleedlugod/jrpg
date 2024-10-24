@@ -10,7 +10,7 @@ var focus: int = 0:
 # handles player currently taking action
 var current_player: int = 0:
 	set(new_current_player):
-		players[current_player].unfocus()
+		if current_player < players.size(): players[current_player].unfocus()
 		players[new_current_player].focus()
 		current_player = new_current_player
 
