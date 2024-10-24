@@ -1,11 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://y4sj0me3rrwp"]
+[gd_scene load_steps=6 format=3 uid="uid://y4sj0me3rrwp"]
 
 [ext_resource type="Texture2D" uid="uid://cj1sk4ad316me" path="res://assets/rpg-battle-system/background/tumblr_p7k8f3fMWS1wvbydeo1_1280.png" id="1_3hisy"]
+[ext_resource type="Script" path="res://scripts/battle_scene.gd" id="1_u5nxv"]
 [ext_resource type="PackedScene" uid="uid://b4gwvqjmw3g7n" path="res://scenes/enemy_group.tscn" id="1_y55fr"]
 [ext_resource type="PackedScene" uid="uid://ddjnsnnestsan" path="res://scenes/player_group.tscn" id="3_lkmci"]
 [ext_resource type="FontFile" uid="uid://cq3dc84rbkqul" path="res://assets/rpg-battle-system/fonts/ThaleahFat.ttf" id="4_feu23"]
 
 [node name="BattleScene" type="Node2D"]
+script = ExtResource("1_u5nxv")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 offset_right = 320.0
@@ -52,17 +54,15 @@ theme_override_font_sizes/font_size = 8
 text = "Run
 "
 
-[node name="Handler" type="Node" parent="."]
-
-[node name="EnemyGroup" parent="Handler" instance=ExtResource("1_y55fr")]
+[node name="EnemyGroup" parent="." instance=ExtResource("1_y55fr")]
 position = Vector2(88, 46)
 
-[node name="PlayerGroup" parent="Handler" instance=ExtResource("3_lkmci")]
+[node name="PlayerGroup" parent="." instance=ExtResource("3_lkmci")]
 position = Vector2(221, 47)
 
-[connection signal="pressed" from="CanvasLayer/Choice/Attack" to="Handler/EnemyGroup" method="_on_attack_pressed"]
-[connection signal="pressed" from="CanvasLayer/Choice/Defend" to="Handler/EnemyGroup" method="_on_defend_pressed"]
-[connection signal="pressed" from="CanvasLayer/Choice/Magic" to="Handler/EnemyGroup" method="_on_magic_pressed"]
-[connection signal="defend" from="Handler/EnemyGroup" to="Handler/PlayerGroup" method="_on_enemy_group_defend"]
-[connection signal="next_player" from="Handler/EnemyGroup" to="Handler/PlayerGroup" method="_on_enemy_group_next_player"]
-[connection signal="reset_defend" from="Handler/EnemyGroup" to="Handler/PlayerGroup" method="_on_enemy_group_reset_defend"]
+[connection signal="pressed" from="CanvasLayer/Choice/Attack" to="." method="_on_attack_pressed"]
+[connection signal="pressed" from="CanvasLayer/Choice/Attack" to="EnemyGroup" method="_on_attack_pressed"]
+[connection signal="pressed" from="CanvasLayer/Choice/Defend" to="." method="_on_defend_pressed"]
+[connection signal="pressed" from="CanvasLayer/Choice/Defend" to="EnemyGroup" method="_on_defend_pressed"]
+[connection signal="pressed" from="CanvasLayer/Choice/Magic" to="." method="_on_magic_pressed"]
+[connection signal="pressed" from="CanvasLayer/Choice/Magic" to="EnemyGroup" method="_on_magic_pressed"]
