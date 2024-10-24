@@ -29,7 +29,3 @@ func unfocus():
 
 func take_damage(value):
 	if not is_defending: health -= value
-
-func _physics_process(delta: float) -> void:
-	pass
-	

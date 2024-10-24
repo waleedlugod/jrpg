@@ -7,6 +7,13 @@ var focus: int = 0:
 		players[new_focus].focus()
 		focus = new_focus
 
+# handles player currently taking action
+var current_player: int = 0:
+	set(new_current_player):
+		players[current_player].unfocus()
+		players[new_current_player].focus()
+		current_player = new_current_player
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	players = get_children()
@@ -19,3 +26,9 @@ func _reset_defend() -> void:
 	for player in players:
 		player.is_defending = false
 
+func clear_focus():
+	for player in players: player.unfocus()
+
+func handle_damage(player, damage):
+	players[player].take_damage(damage)
+	if players[player].health <= 0: players.pop_at(player).queue_free()
