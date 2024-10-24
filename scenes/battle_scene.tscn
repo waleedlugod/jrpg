@@ -13,12 +13,6 @@ offset_bottom = 180.0
 texture = ExtResource("1_3hisy")
 expand_mode = 1
 
-[node name="EnemyGroup" parent="." instance=ExtResource("1_y55fr")]
-position = Vector2(88, 46)
-
-[node name="PlayerGroup" parent="." instance=ExtResource("3_lkmci")]
-position = Vector2(221, 47)
-
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Choice" type="VBoxContainer" parent="CanvasLayer"]
@@ -58,7 +52,17 @@ theme_override_font_sizes/font_size = 8
 text = "Run
 "
 
-[connection signal="next_player" from="EnemyGroup" to="PlayerGroup" method="_on_enemy_group_next_player"]
-[connection signal="pressed" from="CanvasLayer/Choice/Attack" to="EnemyGroup" method="_on_attack_pressed"]
-[connection signal="pressed" from="CanvasLayer/Choice/Defend" to="EnemyGroup" method="_on_defend_pressed"]
-[connection signal="pressed" from="CanvasLayer/Choice/Magic" to="EnemyGroup" method="_on_magic_pressed"]
+[node name="Handler" type="Node" parent="."]
+
+[node name="EnemyGroup" parent="Handler" instance=ExtResource("1_y55fr")]
+position = Vector2(88, 46)
+
+[node name="PlayerGroup" parent="Handler" instance=ExtResource("3_lkmci")]
+position = Vector2(221, 47)
+
+[connection signal="pressed" from="CanvasLayer/Choice/Attack" to="Handler/EnemyGroup" method="_on_attack_pressed"]
+[connection signal="pressed" from="CanvasLayer/Choice/Defend" to="Handler/EnemyGroup" method="_on_defend_pressed"]
+[connection signal="pressed" from="CanvasLayer/Choice/Magic" to="Handler/EnemyGroup" method="_on_magic_pressed"]
+[connection signal="defend" from="Handler/EnemyGroup" to="Handler/PlayerGroup" method="_on_enemy_group_defend"]
+[connection signal="next_player" from="Handler/EnemyGroup" to="Handler/PlayerGroup" method="_on_enemy_group_next_player"]
+[connection signal="reset_defend" from="Handler/EnemyGroup" to="Handler/PlayerGroup" method="_on_enemy_group_reset_defend"]
