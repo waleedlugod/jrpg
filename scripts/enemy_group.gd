@@ -5,8 +5,11 @@ var action_queue: Array  = []
 var is_battling: bool = false
 var index: int = 0
 var currentAction: String = ""
+var rng = RandomNumberGenerator.new()
 
 signal next_player
+signal reset_defend
+signal defend
 @onready var choice: VBoxContainer = $"../CanvasLayer/Choice"
 
 # Called when the node enters the scene tree for the first time.
@@ -46,13 +49,12 @@ func _action(stack):
 			"attack":
 				enemies[action[1]].take_damage(1)
 				await get_tree().create_timer(1).timeout
-			"defend": # defend logic
-				pass
 			"magic": # magic logic
-				enemies[action[1]].take_damage(3)
+				enemies[action[1]].take_damage(rng.randf_range(0, 5))
 				await get_tree().create_timer(1).timeout
 				pass
 	action_queue.clear()
+	emit_signal("reset_defend")
 	is_battling = false
 	show_choice()
 
@@ -81,6 +83,7 @@ func _on_attack_pressed() -> void:
 
 func _on_defend_pressed() -> void:
 	action_queue.push_back(["defend"])
+	emit_signal("defend")
 	emit_signal("next_player")
 
 func _on_magic_pressed() -> void:

@@ -27,4 +27,10 @@ func switch_focus(x,y):
 	players[x].focus()
 	players[y].unfocus()
 	
-	
+func _on_enemy_group_reset_defend() -> void:
+	for player in players:
+		player.is_defending = false
+
+func _on_enemy_group_defend() -> void:
+	players[index].is_defending = true
+

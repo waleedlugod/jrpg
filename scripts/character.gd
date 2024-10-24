@@ -7,6 +7,8 @@ extends CharacterBody2D
 
 @export var MAX_HEALTH: float = 7
 
+var is_defending: bool = false
+
 var health: float = 7:
 	set(value):
 		health = value
@@ -26,7 +28,7 @@ func unfocus():
 	_focus.hide()
 
 func take_damage(value):
-	health -= value
+	if not is_defending: health -= value
 
 func _physics_process(delta: float) -> void:
 	pass
