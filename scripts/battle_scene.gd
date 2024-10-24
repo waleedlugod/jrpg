@@ -60,20 +60,26 @@ func _process(_delta: float) -> void:
 
 
 func start_battle_sequence():
+	action_choice.hide()
 	for action in action_queue:
 		print(action)
 		match action.chosen_action:
 			"attack": enemies[action.target].take_damage(1)
 			"defend": players[action.target].is_defending = true
 			"magic": enemies[action.target].take_damage(rng.randi_range(1, 5))
+		await get_tree().create_timer(1).timeout
+	
+	end_battle_sequence()
+
+func end_battle_sequence():
 	is_battling = false
 	current_player = 0
 	playerGroup._reset_defend()
 	action_queue.clear()
+	show_choice()
 
 func generate_enemy_actions():
 	pass
-
 
 func show_choice():
 	action_choice.show()
