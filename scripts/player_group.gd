@@ -32,3 +32,7 @@ func clear_focus():
 func handle_damage(player, damage):
 	players[player].take_damage(damage)
 	if players[player].health <= 0: players.pop_at(player).queue_free()
+	
+func _reset_charge() -> void:
+	for player in players:
+		player.is_charging = false

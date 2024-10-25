@@ -8,10 +8,13 @@ extends CharacterBody2D
 @export var MAX_HEALTH: float = 7
 
 var is_defending: bool = false
+var is_charging: bool = false
+var charge_multiplier: float = 1.5  # Multiplier for charged attacks
+
 
 var health: float = 7:
 	set(value):
-		health = value
+		health = clamp(value, 0, MAX_HEALTH)  # Ensure health stays within bounds
 		_update_progress_bar()
 		_play_animation()
 		
@@ -29,3 +32,6 @@ func unfocus():
 
 func take_damage(value):
 	if not is_defending: health -= value
+	
+func apply_charge():
+	is_charging = true

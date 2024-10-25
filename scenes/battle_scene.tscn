@@ -41,18 +41,17 @@ theme_override_fonts/font = ExtResource("4_feu23")
 theme_override_font_sizes/font_size = 8
 text = "Magic"
 
-[node name="Choice4" type="Button" parent="CanvasLayer/Choice"]
+[node name="Charge" type="Button" parent="CanvasLayer/Choice"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_feu23")
 theme_override_font_sizes/font_size = 8
-text = "Choice 4"
+text = "Charge"
 
-[node name="Run" type="Button" parent="CanvasLayer/Choice"]
+[node name="Heal" type="Button" parent="CanvasLayer/Choice"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_feu23")
 theme_override_font_sizes/font_size = 8
-text = "Run
-"
+text = "Heal"
 
 [node name="EnemyGroup" parent="." instance=ExtResource("1_y55fr")]
 position = Vector2(88, 46)
@@ -66,3 +65,5 @@ position = Vector2(221, 47)
 [connection signal="pressed" from="CanvasLayer/Choice/Defend" to="EnemyGroup" method="_on_defend_pressed"]
 [connection signal="pressed" from="CanvasLayer/Choice/Magic" to="." method="_on_magic_pressed"]
 [connection signal="pressed" from="CanvasLayer/Choice/Magic" to="EnemyGroup" method="_on_magic_pressed"]
+[connection signal="pressed" from="CanvasLayer/Choice/Charge" to="." method="_on_charge_pressed"]
+[connection signal="pressed" from="CanvasLayer/Choice/Heal" to="." method="_on_heal_pressed"]

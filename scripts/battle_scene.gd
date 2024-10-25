@@ -19,7 +19,7 @@ var chosen_action: String = ""
 var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
 var is_battling: bool = false
-
+var healing_amount = 10 
 
 func _ready() -> void:
 	show_choice()
@@ -50,6 +50,7 @@ func _process(_delta: float) -> void:
 		start_battle_sequence()
 
 
+
 func start_battle_sequence():
 	action_choice.hide()
 	playerGroup.clear_focus()
@@ -59,12 +60,25 @@ func start_battle_sequence():
 		print(action)
 		match action.chosen_action:
 			"attack":
-				enemyGroup.handle_damage(action.target, 2)
+				# Check if player is charging to apply bonus damage
+				var player = players[action.target]
+				var damage = 2  # Base damage
+				if player.is_charging:
+					damage *= player.charge_multiplier
+					player.is_charging = false  
+				enemyGroup.handle_damage(action.target, damage)
 			"defend":
 				players[action.target].is_defending = true
 			"magic":
 				enemyGroup.handle_damage(action.target, rng.randi_range(1, 5))
+			"charge":
+				players[action.target].is_charging = true  
+			"heal":
+				var target_player = players[action.target]
+				target_player.health = min(target_player.MAX_HEALTH, target_player.health + healing_amount)  # Apply healing
+				print("Healed player " + str(action.target) + " for " + str(healing_amount) + " HP")
 		await get_tree().create_timer(1).timeout
+		
 	
 	# enemy action phase
 	var enemy_action_queue = generate_enemy_actions()
@@ -86,6 +100,7 @@ func end_battle_sequence():
 	playerGroup._reset_defend()
 	action_queue.clear()
 	show_choice()
+	print("Round Ended")
 
 
 func generate_enemy_actions() -> Array:
@@ -130,3 +145,23 @@ func _on_defend_pressed() -> void:
 func _on_magic_pressed() -> void:
 	chosen_action = "magic"
 	start_choose_action_target()
+
+func _on_charge_pressed() -> void:
+	chosen_action = "charge"
+	action_queue.push_back({
+		chosen_action = "charge", 
+		target = playerGroup.current_player
+	})
+	if playerGroup.current_player + 1 < players.size():
+		playerGroup.current_player += 1
+	show_choice()
+
+func _on_heal_pressed() -> void:
+	chosen_action = "heal"
+	action_queue.push_back({
+		chosen_action = "heal",
+		target = playerGroup.current_player  # Heal self
+	})
+	if playerGroup.current_player + 1 < players.size():
+		playerGroup.current_player += 1
+	show_choice()
