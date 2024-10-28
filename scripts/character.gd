@@ -6,6 +6,7 @@ extends CharacterBody2D
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 @export var MAX_HEALTH: float = 7
+@export var player_id: int = 0 
 
 var is_defending: bool = false
 var is_charging: bool = false

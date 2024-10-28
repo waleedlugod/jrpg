@@ -18,6 +18,7 @@ var current_player: int = 0:
 func _ready() -> void:
 	players = get_children()
 	for i in players.size():
+		players[i].player_id = i + 1 #player id
 		players[i].position = Vector2(0, i*36)
 		
 	focus = 0

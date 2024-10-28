@@ -6,6 +6,8 @@ extends Node2D
 @onready var playerGroup = $PlayerGroup
 @onready var players = $PlayerGroup.players
 
+@export var player_id: int 
+
 
 # handles target focus when attacking
 var action_target: int = 0:
@@ -23,6 +25,10 @@ var healing_amount = 10
 
 func _ready() -> void:
 	show_choice()
+	$Textbox.hide()
+	$GameOverScreen.hide()
+	
+	
 
 
 func _process(_delta: float) -> void:
@@ -44,6 +50,9 @@ func _process(_delta: float) -> void:
 				playerGroup.current_player += 1
 			enemyGroup.clear_focus()
 			show_choice()
+	
+	if Input.is_action_just_pressed("ui_accept") and $Textbox.visible:
+		$Textbox.hide()
 
 	if action_queue.size() == players.size() and not is_battling:
 		is_battling = true
@@ -58,24 +67,33 @@ func start_battle_sequence():
 	# player action phase
 	for action in action_queue:
 		print(action)
+		
+		# Check if player target exists before taking action
+		if action.target >= players.size() or players[action.target] == null:
+			continue  # Skip action if target player does not exist
+		
 		match action.chosen_action:
 			"attack":
-				# Check if player is charging to apply bonus damage
 				var player = players[action.target]
-				var damage = 2  # Base damage
+				var damage = 2  
 				if player.is_charging:
 					damage *= player.charge_multiplier
 					player.is_charging = false  
 				enemyGroup.handle_damage(action.target, damage)
+				display_text("Player %d attacked Enemy %d for %d damage" % [action.target + 1, action.target + 1, damage])
 			"defend":
 				players[action.target].is_defending = true
+				display_text("Player %d is defending" % playerGroup.current_player)
 			"magic":
 				enemyGroup.handle_damage(action.target, rng.randi_range(1, 5))
+				display_text("Player %d cast magic on Enemy %d for %d damage" % [action.target + 1, action.target + 1, rng.randi_range(1, 5)])
 			"charge":
-				players[action.target].is_charging = true  
+				players[action.target].is_charging = true 
+				display_text("Player %d is charging up for a stronger attack" % [action.target + 1]) 
 			"heal":
 				var target_player = players[action.target]
-				target_player.health = min(target_player.MAX_HEALTH, target_player.health + healing_amount)  # Apply healing
+				target_player.health = min(target_player.MAX_HEALTH, target_player.health + healing_amount)  
+				display_text("Player %d healed for %d HP" % [action.target + 1, healing_amount])
 				print("Healed player " + str(action.target) + " for " + str(healing_amount) + " HP")
 		await get_tree().create_timer(1).timeout
 		
@@ -84,11 +102,15 @@ func start_battle_sequence():
 	var enemy_action_queue = generate_enemy_actions()
 	for action in enemy_action_queue:
 		print(action)
+		if action.target >= players.size() or players[action.target] == null:
+			continue
 		match action.chosen_action:
 			"attack":
 				playerGroup.handle_damage(action.target, 2)
+				display_text("Enemy %d attacked Player %d for 2 damage" % [action.target + 1 , action.target + 1])
 			"magic":
 				playerGroup.handle_damage(action.target, rng.randi_range(1, 5))
+				display_text("Enemy %d cast magic on Player %d for %d damage" % [action.target + 1, action.target + 1, rng.randi_range(1, 5)])
 		await get_tree().create_timer(1).timeout
 	
 	end_battle_sequence()
@@ -100,6 +122,7 @@ func end_battle_sequence():
 	playerGroup._reset_defend()
 	action_queue.clear()
 	show_choice()
+	check_game_over()
 	print("Round Ended")
 
 
@@ -165,3 +188,20 @@ func _on_heal_pressed() -> void:
 	if playerGroup.current_player + 1 < players.size():
 		playerGroup.current_player += 1
 	show_choice()
+	
+func display_text(text):
+	$Textbox.show()
+	$Textbox/RichTextLabel.text = text
+	
+	
+func check_game_over():
+	if playerGroup.players.size() == 0:
+		display_game_over_screen("Game Over! Player Party wiped out. You Lose!")
+	elif enemyGroup.enemies.size() == 0:
+		display_game_over_screen("Victory! Enemy Party wiped out. You Win!")
+		
+func display_game_over_screen(message: String):
+	$GameOverScreen.show() 
+	$GameOverScreen/RichTextLabel.text = message  
+	action_choice.hide()  
+	$Textbox.hide()
