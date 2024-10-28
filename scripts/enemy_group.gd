@@ -7,6 +7,7 @@ func _ready() -> void:
 	enemies = get_children()
 	for i in enemies.size():
 		enemies[i].position = Vector2(0, i*36)
+		enemies[i].character_name = "Enemy %s" % (i+1)
 
 
 func clear_focus() -> void:

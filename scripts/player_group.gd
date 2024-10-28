@@ -20,6 +20,7 @@ func _ready() -> void:
 	for i in players.size():
 		players[i].player_id = i + 1 #player id
 		players[i].position = Vector2(0, i*36)
+		players[i].character_name = "Player %s" % (i+1)
 		
 	focus = 0
 

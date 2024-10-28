@@ -11,6 +11,7 @@ extends CharacterBody2D
 var is_defending: bool = false
 var is_charging: bool = false
 var charge_multiplier: float = 1.5  # Multiplier for charged attacks
+var character_name: String = ""
 
 
 var health: float = 7:

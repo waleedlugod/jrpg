@@ -65,52 +65,58 @@ func start_battle_sequence():
 	playerGroup.clear_focus()
 
 	# player action phase
-	for action in action_queue:
+	for i in len(action_queue):
+		var action = action_queue[i]
 		print(action)
 		
 		# Check if player target exists before taking action
 		if action.target >= players.size() or players[action.target] == null:
 			continue  # Skip action if target player does not exist
+
+		var player = players[i]
 		
 		match action.chosen_action:
 			"attack":
-				var player = players[action.target]
 				var damage = 2  
 				if player.is_charging:
 					damage *= player.charge_multiplier
 					player.is_charging = false  
 				enemyGroup.handle_damage(action.target, damage)
-				display_text("Player %d attacked Enemy %d for %d damage" % [action.target + 1, action.target + 1, damage])
+				display_text("%s attacked %s for %d damage" % [player.character_name, enemies[action.target].character_name, damage])
 			"defend":
 				players[action.target].is_defending = true
-				display_text("Player %d is defending" % playerGroup.current_player)
+				display_text("%s is defending" % player.character_name)
 			"magic":
 				enemyGroup.handle_damage(action.target, rng.randi_range(1, 5))
-				display_text("Player %d cast magic on Enemy %d for %d damage" % [action.target + 1, action.target + 1, rng.randi_range(1, 5)])
+				display_text("%s cast magic on %s for %d damage" % [player.character_name, enemies[action.target].character_name, rng.randi_range(1, 5)])
 			"charge":
 				players[action.target].is_charging = true 
-				display_text("Player %d is charging up for a stronger attack" % [action.target + 1]) 
+				display_text("%s is charging up for a stronger attack" % player.character_name) 
 			"heal":
 				var target_player = players[action.target]
 				target_player.health = min(target_player.MAX_HEALTH, target_player.health + healing_amount)  
-				display_text("Player %d healed for %d HP" % [action.target + 1, healing_amount])
+				display_text("%s healed for %d HP" % [target_player.character_name, healing_amount])
 				print("Healed player " + str(action.target) + " for " + str(healing_amount) + " HP")
 		await get_tree().create_timer(1).timeout
 		
 	
 	# enemy action phase
 	var enemy_action_queue = generate_enemy_actions()
-	for action in enemy_action_queue:
+	for i in len(enemy_action_queue):
+		var action = enemy_action_queue[i]
 		print(action)
 		if action.target >= players.size() or players[action.target] == null:
 			continue
+
+		var enemy = enemies[i]
+
 		match action.chosen_action:
 			"attack":
 				playerGroup.handle_damage(action.target, 2)
-				display_text("Enemy %d attacked Player %d for 2 damage" % [action.target + 1 , action.target + 1])
+				display_text("%s attacked %s for 2 damage" % [enemy.character_name, players[action.target].character_name])
 			"magic":
 				playerGroup.handle_damage(action.target, rng.randi_range(1, 5))
-				display_text("Enemy %d cast magic on Player %d for %d damage" % [action.target + 1, action.target + 1, rng.randi_range(1, 5)])
+				display_text("%s cast magic on %s for %d damage" % [enemy.character_name, players[action.target].character_name, rng.randi_range(1, 5)])
 		await get_tree().create_timer(1).timeout
 	
 	end_battle_sequence()
