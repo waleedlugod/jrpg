@@ -72,7 +72,12 @@ func start_battle_sequence():
 		print(action)
 
 		if enemies[action.target].is_dead:
+			display_text("Skipped: Enemy %s is already dead." % enemies[action.target])
 			# attack dead enemy logic
+			continue
+			
+		if i >= players.size() or players[i] == null or players[i].is_dead:
+			display_text("Skipped: Player %s is unavailable." % players[i].character_name)
 			continue
 
 		var player = players[i]
@@ -114,7 +119,12 @@ func start_battle_sequence():
 		print(action)
 
 		if players[action.target].is_dead or not players[action.target]:
+			display_text("Skipped: Player %s is unavailable." % players[action.target].character_name)
 			# attack dead player logic
+			continue
+			
+		if i >= enemies.size() or enemies[i] == null or enemies[i].is_dead:
+			display_text("Skipped: Enemy %s is unavailable." % enemies[i].character_name)
 			continue
 
 		var enemy = enemies[i]
@@ -144,6 +154,7 @@ func end_battle_sequence():
 		playerGroup._reset_defend()
 		action_queue.clear()
 		show_choice()
+		check_game_over()
 		print("Round Ended")
 
 
@@ -221,3 +232,23 @@ func display_game_over_screen(message: String):
 	$GameOverScreen/RichTextLabel.text = message  
 	action_choice.hide()  
 	$Textbox.hide()
+
+func check_game_over():
+	# Check if all enemies are dead
+	var all_enemies_dead = true
+	for enemy in enemies:
+		if not enemy.is_dead:
+			all_enemies_dead = false
+			break
+	
+	# Check if all players are dead
+	var all_players_dead = true
+	for player in players:
+		if not player.is_dead:
+			all_players_dead = false
+			break
+	
+	if playerGroup.players.size() == 0:
+		display_game_over_screen("Game Over! Player Party wiped out. You Lose!")
+	elif enemyGroup.enemies.size() == 0:
+		display_game_over_screen("Victory! Enemy Party wiped out. You Win!")
