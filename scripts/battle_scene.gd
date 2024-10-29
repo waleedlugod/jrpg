@@ -130,13 +130,17 @@ func start_battle_sequence():
 
 
 func end_battle_sequence():
-	is_battling = false
-	playerGroup.current_player = 0
-	playerGroup._reset_defend()
-	action_queue.clear()
-	show_choice()
-	check_game_over()
-	print("Round Ended")
+	if playerGroup.players.size() == 0:
+		display_game_over_screen("Game Over! Player Party wiped out. You Lose!")
+	elif enemyGroup.enemies.size() == 0:
+		display_game_over_screen("Victory! Enemy Party wiped out. You Win!")
+	else:
+		is_battling = false
+		playerGroup.current_player = 0
+		playerGroup._reset_defend()
+		action_queue.clear()
+		show_choice()
+		print("Round Ended")
 
 
 func generate_enemy_actions() -> Array:
@@ -205,13 +209,6 @@ func _on_heal_pressed() -> void:
 func display_text(text):
 	$Textbox.show()
 	$Textbox/RichTextLabel.text = text
-	
-	
-func check_game_over():
-	if playerGroup.players.size() == 0:
-		display_game_over_screen("Game Over! Player Party wiped out. You Lose!")
-	elif enemyGroup.enemies.size() == 0:
-		display_game_over_screen("Victory! Enemy Party wiped out. You Win!")
 		
 func display_game_over_screen(message: String):
 	$GameOverScreen.show() 
