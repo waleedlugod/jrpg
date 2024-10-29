@@ -81,22 +81,22 @@ func start_battle_sequence():
 				if player.is_charging:
 					damage *= player.charge_multiplier
 					player.is_charging = false  
-				enemyGroup.handle_damage(action.target, damage)
 				display_text("%s attacked %s for %d damage" % [player.character_name, enemies[action.target].character_name, damage])
+				enemyGroup.handle_damage(action.target, damage)
 			"defend":
-				players[action.target].is_defending = true
 				display_text("%s is defending" % player.character_name)
+				players[action.target].is_defending = true
 			"magic":
-				enemyGroup.handle_damage(action.target, rng.randi_range(1, 5))
 				display_text("%s cast magic on %s for %d damage" % [player.character_name, enemies[action.target].character_name, rng.randi_range(1, 5)])
+				enemyGroup.handle_damage(action.target, rng.randi_range(1, 5))
 			"charge":
-				players[action.target].is_charging = true 
 				display_text("%s is charging up for a stronger attack" % player.character_name) 
+				players[action.target].is_charging = true 
 			"heal":
 				var target_player = players[action.target]
-				target_player.health = min(target_player.MAX_HEALTH, target_player.health + healing_amount)  
 				display_text("%s healed for %d HP" % [target_player.character_name, healing_amount])
 				print("Healed player " + str(action.target) + " for " + str(healing_amount) + " HP")
+				target_player.health = min(target_player.MAX_HEALTH, target_player.health + healing_amount)  
 		await get_tree().create_timer(2).timeout
 		
 	
