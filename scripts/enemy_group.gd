@@ -19,4 +19,6 @@ func handle_damage(enemy, damage):
 		
 	enemies[enemy].take_damage(damage)
 	  
-	if enemies[enemy].health <= 0: enemies.pop_at(enemy).queue_free()
+	if enemies[enemy].health <= 0:
+		enemies[enemy].is_dead = true
+		enemies[enemy].visible = false

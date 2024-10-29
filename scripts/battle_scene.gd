@@ -33,13 +33,15 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	if not action_choice.visible:
-		if Input.is_action_just_pressed("ui_up"):
-			if action_target > 0:
-				action_target -= 1
+		if Input.is_action_just_pressed("ui_up") and action_target > 0:
+			var temp = action_target - 1
+			while enemies[action_target].is_dead and temp >= 0: temp -= 1
+			if not enemies[temp].is_dead: action_target = temp
 				
-		if Input.is_action_just_pressed("ui_down"):
-			if action_target < enemies.size() - 1:
-				action_target += 1
+		if Input.is_action_just_pressed("ui_down") and action_target < enemies.size() - 1:
+			var temp = action_target + 1
+			while enemies[action_target].is_dead and temp < enemies.size(): temp += 1
+			if not enemies[temp].is_dead: action_target = temp
 				
 		if Input.is_action_just_pressed("ui_accept"):
 			action_queue.push_back({
@@ -68,10 +70,10 @@ func start_battle_sequence():
 	for i in len(action_queue):
 		var action = action_queue[i]
 		print(action)
-		
-		# Check if player target exists before taking action
-		if action.target >= players.size() or players[action.target] == null:
-			continue  # Skip action if target player does not exist
+
+		if enemies[action.target].is_dead:
+			# attack dead enemy logic
+			continue
 
 		var player = players[i]
 		
@@ -110,7 +112,9 @@ func start_battle_sequence():
 	for i in len(enemy_action_queue):
 		var action = enemy_action_queue[i]
 		print(action)
-		if action.target >= players.size() or players[action.target] == null:
+
+		if players[action.target].is_dead:
+			# attack dead player logic
 			continue
 
 		var enemy = enemies[i]
@@ -165,7 +169,9 @@ func show_choice():
 func start_choose_action_target():
 	action_choice.hide()
 	enemyGroup.clear_focus()
-	action_target = 0
+	var temp = 0
+	while enemies[temp].is_dead: temp += 1
+	action_target = temp
 
 
 func _on_attack_pressed() -> void:
