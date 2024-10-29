@@ -113,7 +113,7 @@ func start_battle_sequence():
 		var action = enemy_action_queue[i]
 		print(action)
 
-		if players[action.target].is_dead:
+		if players[action.target].is_dead or not players[action.target]:
 			# attack dead player logic
 			continue
 
