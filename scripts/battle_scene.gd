@@ -97,7 +97,7 @@ func start_battle_sequence():
 				target_player.health = min(target_player.MAX_HEALTH, target_player.health + healing_amount)  
 				display_text("%s healed for %d HP" % [target_player.character_name, healing_amount])
 				print("Healed player " + str(action.target) + " for " + str(healing_amount) + " HP")
-		await get_tree().create_timer(1).timeout
+		await get_tree().create_timer(2).timeout
 		
 	
 	# enemy action phase
@@ -117,7 +117,7 @@ func start_battle_sequence():
 			"magic":
 				playerGroup.handle_damage(action.target, rng.randi_range(1, 5))
 				display_text("%s cast magic on %s for %d damage" % [enemy.character_name, players[action.target].character_name, rng.randi_range(1, 5)])
-		await get_tree().create_timer(1).timeout
+		await get_tree().create_timer(2).timeout
 	
 	end_battle_sequence()
 
