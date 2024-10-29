@@ -18,13 +18,17 @@ var health: float = 7:
 	set(value):
 		health = clamp(value, 0, MAX_HEALTH)  # Ensure health stays within bounds
 		_update_progress_bar()
-		_play_animation()
 		
 func _update_progress_bar():
 	progress_bar.value = (health/MAX_HEALTH) * 100
 	
-func _play_animation():
-	animation_player.play("hurt")
+func _play_animation(animation: String):
+	match animation:
+		"attack": animation_player.play("hurt")
+		"magic": animation_player.play("magic_hurt")
+		"defend": animation_player.play("defend")
+		"charge": animation_player.play("charge")
+		"heal": animation_player.play("heal")
 
 func focus():
 	_focus.show()

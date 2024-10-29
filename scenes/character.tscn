@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://byx8wv7a55slc"]
+[gd_scene load_steps=12 format=3 uid="uid://byx8wv7a55slc"]
 
 [ext_resource type="Script" path="res://scripts/character.gd" id="1_jdtd8"]
 [ext_resource type="Texture2D" uid="uid://cthcmw83y168w" path="res://assets/rpg-battle-system/monster/chest.png" id="1_r2b6f"]
@@ -29,16 +29,80 @@ tracks/0/path = NodePath("Sprite2D:self_modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.4),
+"times": PackedFloat32Array(0, 0.5, 0.6),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Color(30, 30, 30, 1), Color(30, 30, 30, 1), Color(1, 1, 1, 1)]
 }
 
+[sub_resource type="Animation" id="Animation_oigfv"]
+resource_name = "magic_hurt"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0, 0.862745, 30, 1), Color(0, 0.862745, 30, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_bt3ee"]
+resource_name = "charge"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 0, 0, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_8lciv"]
+resource_name = "heal"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0, 1, 0, 1), Color(0, 1, 0, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_ux2dp"]
+resource_name = "defend"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0.235619, 0.321017, 0.502361, 1), Color(0.235619, 0.321017, 0.502361, 1), Color(1, 1, 1, 1)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_3yaak"]
 _data = {
 "RESET": SubResource("Animation_pwrj4"),
-"hurt": SubResource("Animation_i1fee")
+"charge": SubResource("Animation_bt3ee"),
+"defend": SubResource("Animation_ux2dp"),
+"heal": SubResource("Animation_8lciv"),
+"hurt": SubResource("Animation_i1fee"),
+"magic_hurt": SubResource("Animation_oigfv")
 }
 
 [node name="Character" type="CharacterBody2D"]
