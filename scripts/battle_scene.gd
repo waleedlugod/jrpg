@@ -112,11 +112,11 @@ func start_battle_sequence():
 
 		match action.chosen_action:
 			"attack":
-				playerGroup.handle_damage(action.target, 2)
 				display_text("%s attacked %s for 2 damage" % [enemy.character_name, players[action.target].character_name])
+				playerGroup.handle_damage(action.target, 2)
 			"magic":
-				playerGroup.handle_damage(action.target, rng.randi_range(1, 5))
 				display_text("%s cast magic on %s for %d damage" % [enemy.character_name, players[action.target].character_name, rng.randi_range(1, 5)])
+				playerGroup.handle_damage(action.target, rng.randi_range(1, 5))
 		await get_tree().create_timer(2).timeout
 	
 	end_battle_sequence()
