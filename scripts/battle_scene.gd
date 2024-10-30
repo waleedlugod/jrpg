@@ -161,6 +161,7 @@ func end_battle_sequence():
 func generate_enemy_actions() -> Array:
 	var queue = []
 	for enemy in enemies:
+		if enemy.is_dead: continue
 		var action
 		match rng.randi_range(0, 1):
 			0: action = "attack"
@@ -248,7 +249,7 @@ func check_game_over():
 			all_players_dead = false
 			break
 	
-	if playerGroup.players.size() == 0:
+	if all_players_dead:
 		display_game_over_screen("Game Over! Player Party wiped out. You Lose!")
-	elif enemyGroup.enemies.size() == 0:
+	elif all_enemies_dead:
 		display_game_over_screen("Victory! Enemy Party wiped out. You Win!")
