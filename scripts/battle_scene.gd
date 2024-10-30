@@ -118,14 +118,10 @@ func start_battle_sequence():
 		var action = enemy_action_queue[i]
 		print(action)
 
-		if players[action.target].is_dead or not players[action.target]:
-			display_text("Skipped: Player %s is unavailable." % players[action.target].character_name)
+		if action.target >= players.size():
 			# attack dead player logic
-			continue
-			
-		if i >= enemies.size() or enemies[i] == null or enemies[i].is_dead:
-			display_text("Skipped: Enemy %s is unavailable." % enemies[i].character_name)
-			continue
+			action.target = players.size()-1
+		if players.size() <= 0: continue
 
 		var enemy = enemies[i]
 
@@ -249,7 +245,7 @@ func check_game_over():
 			all_players_dead = false
 			break
 	
-	if all_players_dead:
+	if players.size() == 0:
 		display_game_over_screen("Game Over! Player Party wiped out. You Lose!")
 	elif all_enemies_dead:
 		display_game_over_screen("Victory! Enemy Party wiped out. You Win!")
